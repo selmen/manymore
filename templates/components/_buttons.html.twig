@@ -1,0 +1,10 @@
+{% set url = url is defined ? url : null %}
+{% set label = label is defined ? label : null %}
+{% set class = class is defined ? class : 'btn btn-secondary' %}
+{% set type = type is defined ? type : null %}
+
+{% if type %}
+    <button type="{{type}}" id="_{{type}}" class="{{ class }}" name="_{{type}}">{{ label }}</button>
+{% else %}
+    <a href="{{ path(url)}}" class="{{ class }}">{{ label }}</a>
+{% endif %}

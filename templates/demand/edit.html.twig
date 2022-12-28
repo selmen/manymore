@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier demande{% endblock %}
+
+{% block body %}  
+    <div class="container mt-5">
+        <h3>Modifier une demande</h3>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_widget(form._token) }}           
+            <div class="mb-3">           
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.content) }}
+                {{ form_widget(form.content) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.document) }}
+                {{ form_widget(form.document) }}
+            </div>
+            <div class="mb-3">        
+            {% include 'components/_buttons.html.twig' with {
+                'url': 'app_demand_list',
+                'label': 'Retour à la liste'
+            } %}
+            {{ form_widget(form.save,{'label': 'Modifier', attr:{'class':'btn-right btn btn-success'}}) }} 
+            </div>         
+        </form>   
+    </div>           
+{% endblock %} 

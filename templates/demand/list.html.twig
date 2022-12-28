@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande list{% endblock %}
+
+{% block body %}   
+    <div class="container mt-5">
+        <h3>Liste des demandes</h3>  
+        <table class="table table-bordered">                        
+            <thead class="table-light">           
+                <tr> 
+                    {% if hasAccess() %}                              
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                    {% endif %}
+                    <th scope="col">Titre</th>
+                    <th scope="col">Contenu</th>
+                    <th scope="col">Statut</th>                
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Piece jointe</th>
+                    {% if hasAccess() %}
+                        <th scope="col">Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>       
+                {% for demand in demands %}
+                    <tr>
+                        {% if hasAccess() %}
+                            <td>{{ demand.user.lastName }}</td>
+                            <td>{{ demand.user.firstName }}</td>
+                        {% endif %}
+                        <td>{{ demand.title }}</td>
+                        <td>{{ demand.content }}</td>
+                        <td>{{ demand.status|trans }}</td>
+                        <td>{{ demand.createdAt|date('Y-m-d') }}</td>
+                        <td> 
+                        {% if demand.fileName %}
+                            <a 
+                                href="{{ asset('uploads/demands/' ~ demand.id ~ '/' ~ demand.fileName) }}" 
+                                target="_blank">
+                            {{ 'view-document'|trans }}
+                            </a>
+                        {% else %}
+                            {{ 'no-document'|trans }}                        
+                        {% endif %}
+                        </td>
+                        {% if hasAccess() %}
+                            <td>                        
+                                {% include 'components/_icons.html.twig' with {
+                                    'object': demand,
+                                    'path_edit': 'app_demand_edit',
+                                    'path_remove': 'app_demand_delete',
+                                    'path_user': 'app_user_details'                                                               
+                                } %}                            
+                                <select  class="form-select" onchange="location = this.value;">                                
+                                    {% for list in list_status %}
+                                        <option 
+                                            value="{{ path('app_demand_edit_status', {'id': demand.id, 'status': list}) }}"
+                                            {% if list == demand.status %} selected {% endif %}>
+                                            {{ list|trans }}
+                                        </option>
+                                    {% endfor %}
+                                </select>                        
+                            </td>
+                        {% endif %}
+                    </tr> 
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">Aucune demande</td>                
+                    </tr>  
+                {% endfor %}       
+            </tbody>
+        </table>
+        {{ knp_pagination_render(demands) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Authentification{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block body %}    
+    <div class="container mt-5">
+        <form class="form-horizontal" method="POST" role="form" align="center">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <div class="panel panel-body login-form">
+                <div class="text-center">                    
+                    <h5 class="content-group">
+                        Connectez-vous à votre compte                        
+                    </h5>                    
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            Vous êtes connecter <b>{{ app.user.username }}</b> <a href="{{ path('app_security_logout') }}">Déconnexion</a>
+                        </div>
+                    {% endif %}
+                </div>               
+                <div class="form-group mb-2">
+                    <input 
+                        type="email"
+                        class="form-control-lg border border-primary" 
+                        name="email"
+                        placeholder="Email" 
+                        value="{{ last_username }}"                            
+                        required="required">                      
+                </div>
+                <div class="form-group">
+                    <input 
+                        type="password"
+                        class="form-control-lg border border-primary" 
+                        name="password"
+                        placeholder="Mot de passe"                                                        
+                        required="required">  
+                </div>             
+                <div class="d-grid gap-2 col-3 mx-auto mt-3">
+                    {% include 'components/_buttons.html.twig' with {
+                        'type': 'submit',
+                        'label': 'Connexion',
+                        'class': 'btn btn-primary'
+                    } %}
+                </div>
+            </div>
+        </form>
+    <div>
+{% endblock %}

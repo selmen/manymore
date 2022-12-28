@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur list{% endblock %}
+
+{% block body %}    
+    <div class="container mt-5">
+        <h3>Liste des utilisateurs</h3>  
+        <table class="table table-bordered">                        
+            <thead class="table-light">           
+                <tr>                               
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Email</th>                
+                    <th scope="col">Roles</th>                    
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>       
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles[0] }}</td>
+                        <td>
+                            {% include 'components/_icons.html.twig' with {
+                                'object': user,                                
+                                'path_remove': 'app_user_delete',
+                                'path_show': 'app_user_show',                            
+                            } %}
+                        </td>                         
+                    </tr> 
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">Aucun utilisateur</td>                
+                    </tr>  
+                {% endfor %}       
+            </tbody>
+        </table>
+        {{ knp_pagination_render(users) }}
+    </div>
+{% endblock %}

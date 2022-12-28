@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier utilisateur{% endblock %}
+
+{% block navbar %} 
+    {% if app.user is not null %}  {{ parent() }} {% endif %} 
+{% endblock %}
+
+{% block body %}  
+    <div class="container mt-5">
+        {% if app.user is not null %} <h3>Modifier mon profile</h3> {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {{ form_widget(form._token) }}           
+            <div class="mb-3">           
+                {{ form_label(form.firstName) }}
+                {{ form_widget(form.firstName) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.lastName) }}
+                {{ form_widget(form.lastName) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.roles) }}
+                {{ form_widget(form.roles) }}
+            </div>
+             <div class="mb-3">            
+                {{ form_widget(form.plainPassword) }}            
+            </div>            
+            <div class="mb-3">        
+            {% include 'components/_buttons.html.twig' with {
+                'url': app.user is not null ? 'app_user_list' : 'app_security_login',
+                'label':  app.user is not null ? 'Retour à la liste' : 'Se connecter'
+            } %}
+            {{ form_widget(form.save,{'label': 'Modifier', attr:{'class':'btn-right btn btn-success'}}) }} 
+            </div>         
+        </form>   
+    </div>           
+{% endblock %} 
