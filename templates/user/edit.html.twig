@@ -30,11 +30,13 @@
              <div class="mb-3">            
                 {{ form_widget(form.plainPassword) }}            
             </div>            
-            <div class="mb-3">        
-            {% include 'components/_buttons.html.twig' with {
-                'url': app.user is not null ? 'app_user_list' : 'app_security_login',
-                'label':  app.user is not null ? 'Retour à la liste' : 'Se connecter'
-            } %}
+            <div class="mb-3"> 
+            {% if hasAccess() %}       
+                {% include 'components/_buttons.html.twig' with {
+                    'url': app.user is not null ? 'app_user_list' : 'app_security_login',
+                    'label':  app.user is not null ? 'Retour à la liste' : 'Se connecter'
+                } %}
+            {% endif %}
             {{ form_widget(form.save,{'label': 'Modifier', attr:{'class':'btn-right btn btn-success'}}) }} 
             </div>         
         </form>   

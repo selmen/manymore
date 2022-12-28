@@ -110,7 +110,7 @@ class DemandService
         $request = Request::createFromGlobals();
         $datas = in_array('ROLE_ADMIN', $user->getRoles()) ? 
                     $this->demandRepository->findAll() : 
-                    $this->demandRepository->findBy(['user' => $user()]);
+                    $this->demandRepository->findBy(['user' => $user]);
         $demands = $this->paginator->paginate($datas, $request->query->getInt('page', 1), 2); 
         
         return $demands;
